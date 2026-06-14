@@ -12,22 +12,13 @@
     overflow-y: auto;
     padding: 5px;
 }
-
-.left-text {
-
-    text-align: left;
-
-}
-
 </style>
 
 </head>
 
 <body>
 
-<div class="left-text">
-    <a href="/Index.html">Leave Chat</a>
-</div>
+<a href="/Index.html">Leave Chat</a>
 
 <h1>Developer Chatroom</h1>
 
@@ -39,12 +30,27 @@
 <input type="text" id="message" size="50">
 <button onclick="sendMessage()">Send</button>
 
-<script src="/socket.io/socket.io.js"></script>
+<!-- Firebase -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
-const socket = io();
+const firebaseConfig = {
+  apiKey: "AIzaSyDgz9anw4MhSyRKNymLOMkQgsvy5-C0c1Q",
+  authDomain: "devchat-66db4.firebaseapp.com",
+  databaseURL: "https://devchat-66db4-default-rtdb.firebaseio.com",
+  projectId: "devchat-66db4",
+  storageBucket: "devchat-66db4.firebasestorage.app",
+  messagingSenderId: "671934347659",
+  appId: "1:671934347659:web:ef82690568f5217ce5d78e"
+};
 
-const pingSound = new Audio("https://raw.githubusercontent.com/ayytrix/papaootae/refs/heads/main/public/ping.mp3"); 
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const pingSound = new Audio("https://raw.githubusercontent.com/ayytrix/papaootae/refs/heads/main/public/ping.mp3");
 pingSound.volume = 0.5;
 
 let username = localStorage.getItem("username") || "Guest";
@@ -56,19 +62,22 @@ function sendMessage() {
     let msg = document.getElementById("message").value.trim();
     if (!msg) return;
 
-    socket.emit("chat message", {
+    db.ref("messages").push({
         user: username,
-        text: msg
+        text: msg,
+        time: Date.now()
     });
 
     document.getElementById("message").value = "";
 }
 
-socket.on("chat message", (data) => {
+db.ref("messages").on("child_added", (snapshot) => {
+    const data = snapshot.val();
+
     document.getElementById("chatbox").innerHTML +=
         "<p>" + data.user + ": " + data.text + "</p>";
 
-    pingSound.play();
+    pingSound.play().catch(() => {});
 });
 </script>
 
