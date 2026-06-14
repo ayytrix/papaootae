@@ -31,24 +31,31 @@
 <button onclick="sendMessage()">Send</button>
 
 <!-- Firebase -->
-
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyDgz9anw4MhSyRKNymLOMkQgsvy5-C0c1Q",
-  authDomain: "devchat-66db4.firebaseapp.com",
-  databaseURL: "https://devchat-66db4-default-rtdb.firebaseio.com",
-  projectId: "devchat-66db4",
-  storageBucket: "devchat-66db4.firebasestorage.app",
-  messagingSenderId: "671934347659",
-  appId: "1:671934347659:web:ef82690568f5217ce5d78e"
+    apiKey: "AIzaSyDgz9anw4MhSyRKNymLOMkQgsvy5-C0c1Q",
+
+    authDomain: "devchat-66db4.firebaseapp.com",
+
+    projectId: "devchat-66db4",
+
+    storageBucket: "devchat-66db4.firebasestorage.app",
+
+    messagingSenderId: "671934347659",
+
+    appId: "1:671934347659:web:5ba8d6362af9fea8e5d78e",
+
+    measurementId: "G-QYZZKZXH92"
+
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.database();
+</script>
 
 const pingSound = new Audio("https://raw.githubusercontent.com/ayytrix/papaootae/refs/heads/main/public/ping.mp3");
 pingSound.volume = 0.5;
