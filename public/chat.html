@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Dev Chat Room</title>
+
+<style>
+#chatbox {
+    border: 1px solid black;
+    width: 600px;
+    height: 300px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.left-text {
+
+    text-align: left;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="left-text">
+    <a href="/Index.html">Leave Chat</a>
+</div>
+
+<h1>Developer Chatroom</h1>
+
+<div id="welcome"></div>
+<div id="chatbox"></div>
+
+<br>
+
+<input type="text" id="message" size="50">
+<button onclick="sendMessage()">Send</button>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+
+const pingSound = new Audio("ping.mp3"); 
+pingSound.volume = 0.5;
+
+let username = localStorage.getItem("username") || "Guest";
+
+document.getElementById("welcome").innerHTML =
+    "Logged in as: <b>" + username + "</b>";
+
+function sendMessage() {
+    let msg = document.getElementById("message").value.trim();
+    if (!msg) return;
+
+    socket.emit("chat message", {
+        user: username,
+        text: msg
+    });
+
+    document.getElementById("message").value = "";
+}
+
+socket.on("chat message", (data) => {
+    document.getElementById("chatbox").innerHTML +=
+        "<p>" + data.user + ": " + data.text + "</p>";
+
+    pingSound.play();
+});
+</script>
+
+</body>
+</html>
