@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+.center-text {
+    text-align: center;
+}
+
+.left-text {
+    text-align: left;
+}
+</style>
+
+<title>Dev Chat</title>
+
+</head>
+
+<body>
+
+<a href="index.html">File</a>
+<button>Settings</button>
+
+<div class="center-text">
+    <h1>Welcome to the Developers Chatroom</h1>
+    <h2>Please enter your name to join the chat</h2>
+
+    <textarea id="name" rows="1" cols="30"></textarea>
+    <br><br>
+
+    <button onclick="joinChat()">Join!</button>
+</div>
+
+<script>
+function joinChat() {
+    let username = document.getElementById("name").value.trim();
+
+    if (username === "") {
+        alert("Please enter a name.");
+        return;
+    }
+
+    if (username.length > 20) {
+        alert("Name must be 20 characters or less.");
+        return;
+    }
+
+    localStorage.setItem("username", username);
+
+    window.location.href = "chat.html";
+}
+</script>
+
+</body>
+</html>
